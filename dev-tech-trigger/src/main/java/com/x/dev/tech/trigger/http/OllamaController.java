@@ -9,6 +9,7 @@ import org.springframework.ai.ollama.api.OllamaOptions;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
@@ -22,13 +23,13 @@ public class OllamaController implements IAiService {
 
     @RequestMapping(value = "generate", method = RequestMethod.GET)
     @Override
-    public ChatResponse generate(String model, String message) {
+    public ChatResponse generate(@RequestParam String model, @RequestParam String message) {
         return chatClient.call(new Prompt(message, OllamaOptions.create().withModel(model)));
     }
 
     @RequestMapping(value = "generate_stream", method = RequestMethod.GET)
     @Override
-    public Flux<ChatResponse> generateStream(String model, String message) {
+    public Flux<ChatResponse> generateStream(@RequestParam String model, @RequestParam String message) {
         return chatClient.stream(new Prompt(message, OllamaOptions.create().withModel(model)));
     }
 }
