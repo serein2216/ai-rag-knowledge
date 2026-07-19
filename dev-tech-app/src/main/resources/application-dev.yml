@@ -5,8 +5,8 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
-    password: postgres
-    url: jdbc:postgresql://192.168.1.109:15432/ai-rag-knowledge
+    password: serein2216
+    url: jdbc:postgresql://124.220.43.68:5432/ai-rag-knowledge
     type: com.zaxxer.hikari.HikariDataSource
     # hikari连接池配置
     hikari:
