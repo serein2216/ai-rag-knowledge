@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/v1/ollama/")
+@RequestMapping("/api/v1/openai/")
 public class OpenAiController implements IAiService {
 
     @Resource

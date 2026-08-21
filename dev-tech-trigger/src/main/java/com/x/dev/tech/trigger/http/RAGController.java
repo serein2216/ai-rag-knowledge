@@ -43,7 +43,7 @@ public class RAGController implements IRAGService {
     private RedissonClient redissonClient;
 
 
-    @GetMapping(value = "queryRagTagList")
+    @GetMapping(value = "query_rag_tag_list")
     @Override
     public Response<List<String>> queryRagTagList() {
 
