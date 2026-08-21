@@ -8,15 +8,12 @@ import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.document.Document;
-import org.springframework.ai.ollama.OllamaChatClient;
 import org.springframework.ai.ollama.api.OllamaOptions;
+import org.springframework.ai.openai.OpenAiChatClient;
+import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.ai.vectorstore.PgVectorStore;
 import org.springframework.ai.vectorstore.SearchRequest;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
@@ -27,10 +24,10 @@ import java.util.stream.Collectors;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/v1/ollama/")
-public class OllamaController implements IAiService {
+public class OpenAiController implements IAiService {
 
     @Resource
-    private OllamaChatClient chatClient;
+    private OpenAiChatClient chatClient;
 
     @Resource
     private PgVectorStore pgVectorStore;
@@ -38,13 +35,13 @@ public class OllamaController implements IAiService {
     @RequestMapping(value = "generate", method = RequestMethod.GET)
     @Override
     public ChatResponse generate(@RequestParam String model, @RequestParam String message) {
-        return chatClient.call(new Prompt(message, OllamaOptions.create().withModel(model)));
+        return chatClient.call(new Prompt(message, OpenAiChatOptions.builder().withModel(model).build()));
     }
 
     @RequestMapping(value = "generate_stream", method = RequestMethod.GET)
     @Override
     public Flux<ChatResponse> generateStream(@RequestParam String model, @RequestParam String message) {
-        return chatClient.stream(new Prompt(message, OllamaOptions.create().withModel(model)));
+        return chatClient.stream(new Prompt(message, OpenAiChatOptions.builder().withModel(model).build()));
     }
 
     @RequestMapping(value = "generate_stream_rag", method = RequestMethod.GET)
@@ -74,8 +71,7 @@ public class OllamaController implements IAiService {
 
         return chatClient.stream(new Prompt(
                 messages,
-                OllamaOptions.create()
-                        .withModel(model)
+                OpenAiChatOptions.builder().withModel(model).build()
         ));
     }
 }
